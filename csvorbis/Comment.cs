@@ -134,7 +134,6 @@ namespace csvorbis
 			{
 				if(comment[i]=='=')
 				{
-					// TODO: Fix this
 					char[] comment_uni = AE.GetChars(comment);
 					return new String(comment_uni, i+1, comment_lengths[foo]-(i+1));
 				}
@@ -269,7 +268,7 @@ namespace csvorbis
 			return 0;
 		}
  
-		void clear()
+		internal void clear()
 		{
 			for(int i=0;i<comments;i++)
 				user_comments[i]=null;
@@ -281,7 +280,6 @@ namespace csvorbis
 		{
 			ASCIIEncoding AE = new ASCIIEncoding();
 			char[] vendor_uni = AE.GetChars(vendor);
-			// TODO 
 			return new String(vendor_uni);
 		}
 
