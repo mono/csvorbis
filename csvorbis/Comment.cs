@@ -24,262 +24,284 @@
  */
 
 using System;
+using System.Text;
 using csogg;
 
-// the comments are not part of vorbis_info so that vorbis_info can be
-// static storage
-public class Comment
+namespace csvorbis 
 {
-	private static byte[] _vorbis="vorbis".getBytes();
-
-	private static int OV_EFAULT=-129;
-	private static int OV_EIMPL=-130;
-
-	// unlimited user comment fields.  libvorbis writes 'libvorbis'
-	// whatever vendor is set to in encode
-	public byte[][] user_comments;
-	public int[] comment_lengths; 
-	public int comments;
-	public byte[] vendor;
-
-	public void init()
+	// the comments are not part of vorbis_info so that vorbis_info can be
+	// static storage
+	public class Comment
 	{
-		user_comments=null;
-		comments=0;
-		vendor=null;
-	}
+		private static String _vorbis="vorbis";
 
-	public void add(String comment)
-	{
-		add(comment.getBytes());
-	}
+		//private static int OV_EFAULT=-129;
+		private static int OV_EIMPL=-130;
 
-	private void add(byte[] comment)
-	{
-		byte[][] foo=new byte[comments+2][];
-		if(user_comments!=null)
+		// unlimited user comment fields.  libvorbis writes 'libvorbis'
+		// whatever vendor is set to in encode
+		public byte[][] user_comments;
+		public int[] comment_lengths; 
+		public int comments;
+		public byte[] vendor;
+
+		public void init()
 		{
-			System.arraycopy(user_comments, 0, foo, 0, comments);
+			user_comments=null;
+			comments=0;
+			vendor=null;
 		}
-		user_comments=foo;
 
-		int[] goo=new int[comments+2];
-		if(comment_lengths!=null)
+		public void add(String comment)
 		{
-			System.arraycopy(comment_lengths, 0, goo, 0, comments);
+			ASCIIEncoding AE = new ASCIIEncoding();
+			byte[] comment_byt = AE.GetBytes(comment);
+			add(comment_byt);
 		}
-		comment_lengths=goo;
 
-		byte[] bar=new byte[comment.length+1];
-		System.arraycopy(comment, 0, bar, 0, comment.length);
-		user_comments[comments]=bar;
-		comment_lengths[comments]=comment.length;
-		comments++;
-		user_comments[comments]=null;
-	}
+		private void add(byte[] comment)
+		{
+			byte[][] foo=new byte[comments+2][];
+			if(user_comments!=null)
+			{
+				Array.Copy(user_comments, 0, foo, 0, comments);
+			}
+			user_comments=foo;
 
-	public void add_tag(String tag, String contents)
-	{
-		if(contents==null) contents="";
-		add(tag+"="+contents);
-	}
+			int[] goo=new int[comments+2];
+			if(comment_lengths!=null)
+			{
+				Array.Copy(comment_lengths, 0, goo, 0, comments);
+			}
+			comment_lengths=goo;
 
-	/*
-	  private void add_tag(byte[] tag, byte[] contents){
-		byte[] foo=new byte[tag.length+contents.length+1];
-		int j=0; 
-		for(int i=0; i<tag.length; i++){foo[j++]=tag[i];}
-		foo[j++]=(byte)'='; j++;
-		for(int i=0; i<contents.length; i++){foo[j++]=tag[i];}
-		add(foo);
-	  }
-	*/
+			byte[] bar=new byte[comment.Length+1];
+			Array.Copy(comment, 0, bar, 0, comment.Length);
+			user_comments[comments]=bar;
+			comment_lengths[comments]=comment.Length;
+			comments++;
+			user_comments[comments]=null;
+		}
+
+		public void add_tag(String tag, String contents)
+		{
+			if(contents==null) contents="";
+			add(tag+"="+contents);
+		}
+
+		/*
+		  private void add_tag(byte[] tag, byte[] contents){
+			byte[] foo=new byte[tag.length+contents.length+1];
+			int j=0; 
+			for(int i=0; i<tag.length; i++){foo[j++]=tag[i];}
+			foo[j++]=(byte)'='; j++;
+			for(int i=0; i<contents.length; i++){foo[j++]=tag[i];}
+			add(foo);
+		  }
+		*/
  
-	// This is more or less the same as strncasecmp - but that doesn't exist
-	// * everywhere, and this is a fairly trivial function, so we include it
-	static int tagcompare(byte[] s1, byte[] s2, int n)
-	{
-		int c=0;
-		byte u1, u2;
-		while(c < n)
+		// This is more or less the same as strncasecmp - but that doesn't exist
+		// * everywhere, and this is a fairly trivial function, so we include it
+		static bool tagcompare(byte[] s1, byte[] s2, int n)
 		{
-			u1=s1[c]; u2=s2[c];
-			if(u1>='A')u1=(byte)(u1-'A'+'a');
-			if(u2>='A')u2=(byte)(u2-'A'+'a');
-			if(u1!=u2){ return false; }
-			c++;
-		}
-		return true;
-	}
-
-	public String query(String tag)
-	{
-		return query(tag, 0);
-	}
-
-	public String query(String tag, int count)
-	{
-		int foo=query(tag.getBytes(), count);
-		if(foo==-1)return null;
-		byte[] comment=user_comments[foo];
-		for(int i=0; i<comment_lengths[foo]; i++)
-		{
-			if(comment[i]=='=')
+			int c=0;
+			byte u1, u2;
+			while(c < n)
 			{
-				return new String(comment, i+1, comment_lengths[foo]-(i+1));
+				u1=s1[c]; u2=s2[c];
+				if(u1>='A')u1=(byte)(u1-'A'+'a');
+				if(u2>='A')u2=(byte)(u2-'A'+'a');
+				if(u1!=u2){ return false; }
+				c++;
 			}
+			return true;
 		}
-		return null;
-	}
 
-	private int query(byte[] tag, int count)
-	{
-		int i=0;
-		int found = 0;
-		int taglen = tag.length;
-		byte[] fulltag = new byte[taglen+2];
-		System.arraycopy(tag, 0, fulltag, 0, tag.length);
-		fulltag[tag.length]=(byte)'=';
-
-		for(i=0;i<comments;i++)
+		public String query(String tag)
 		{
-			if(tagcompare(user_comments[i], fulltag, taglen))
+			return query(tag, 0);
+		}
+
+		public String query(String tag, int count)
+		{
+			ASCIIEncoding AE = new ASCIIEncoding();
+			byte[] tag_byt = AE.GetBytes(tag);
+			
+			int foo=query(tag_byt, count);
+			if(foo==-1)return null;
+			byte[] comment=user_comments[foo];
+			for(int i=0; i<comment_lengths[foo]; i++)
 			{
-				if(count==found)
+				if(comment[i]=='=')
 				{
-					// We return a pointer to the data, not a copy
-					//return user_comments[i] + taglen + 1;
-					return i;
+					//TODO
+					//return new String(comment, i+1, comment_lengths[foo]-(i+1));
+					return "Meme";
 				}
-				else{ found++; }
 			}
+			return null;
 		}
-		return -1;
-	}
 
-	int unpack(Buffer opb)
-	{
-		int vendorlen=opb.read(32);
-		if(vendorlen<0)
+		private int query(byte[] tag, int count)
 		{
-			//goto err_out;
-			clear();
-			return(-1);
+			int i=0;
+			int found = 0;
+			int taglen = tag.Length;
+			byte[] fulltag = new byte[taglen+2];
+			Array.Copy(tag, 0, fulltag, 0, tag.Length);
+			fulltag[tag.Length]=(byte)'=';
+
+			for(i=0;i<comments;i++)
+			{
+				if(tagcompare(user_comments[i], fulltag, taglen))
+				{
+					if(count==found)
+					{
+						// We return a pointer to the data, not a copy
+						//return user_comments[i] + taglen + 1;
+						return i;
+					}
+					else{ found++; }
+				}
+			}
+			return -1;
 		}
-		vendor=new byte[vendorlen+1];
-		opb.read(vendor,vendorlen);
-		comments=opb.read(32);
-		if(comments<0)
+
+		internal int unpack(csBuffer opb)
 		{
-			//goto err_out;
-			clear();
-			return(-1);
-		}
-		user_comments=new byte[comments+1][];
-		comment_lengths=new int[comments+1];
-	    
-		for(int i=0;i<comments;i++)
-		{
-			int len=opb.read(32);
-			if(len<0)
+			int vendorlen=opb.read(32);
+			if(vendorlen<0)
 			{
 				//goto err_out;
 				clear();
 				return(-1);
 			}
-			comment_lengths[i]=len;
-			user_comments[i]=new byte[len+1];
-			opb.read(user_comments[i], len);
-		}	  
-		if(opb.read(1)!=1)
-		{
-			//goto err_out; // EOP check
-			clear();
-			return(-1);
-
-		}
-		return(0);
-		//  err_out:
-		//    comment_clear(vc);
-		//    return(-1);
-	}
-
-	int pack(Buffer opb)
-	{
-		byte[] temp="Xiphophorus libVorbis I 20000508".getBytes();
-
-		// preamble
-		opb.write(0x03,8);
-		opb.write(_vorbis);
-
-		// vendor
-		opb.write(temp.length,32);
-		opb.write(temp);
-
-		// comments
-
-		opb.write(comments,32);
-		if(comments!=0)
-		{
+			vendor=new byte[vendorlen+1];
+			opb.read(vendor,vendorlen);
+			comments=opb.read(32);
+			if(comments<0)
+			{
+				//goto err_out;
+				clear();
+				return(-1);
+			}
+			user_comments=new byte[comments+1][];
+			comment_lengths=new int[comments+1];
+	    
 			for(int i=0;i<comments;i++)
 			{
-				if(user_comments[i]!=null)
+				int len=opb.read(32);
+				if(len<0)
 				{
-					opb.write(comment_lengths[i],32);
-					opb.write(user_comments[i]);
+					//goto err_out;
+					clear();
+					return(-1);
 				}
-				else
+				comment_lengths[i]=len;
+				user_comments[i]=new byte[len+1];
+				opb.read(user_comments[i], len);
+			}	  
+			if(opb.read(1)!=1)
+			{
+				//goto err_out; // EOP check
+				clear();
+				return(-1);
+
+			}
+			return(0);
+			//  err_out:
+			//    comment_clear(vc);
+			//    return(-1);
+		}
+
+		int pack(csBuffer opb)
+		{
+			String temp="Xiphophorus libVorbis I 20000508";
+
+			ASCIIEncoding AE = new ASCIIEncoding();
+			byte[] temp_byt = AE.GetBytes(temp);
+			byte[] _vorbis_byt = AE.GetBytes(_vorbis);
+			
+			// preamble
+			opb.write(0x03,8);
+			opb.write(_vorbis_byt);
+
+			// vendor
+			opb.write(temp.Length,32);
+			opb.write(temp_byt);
+
+			// comments
+
+			opb.write(comments,32);
+			if(comments!=0)
+			{
+				for(int i=0;i<comments;i++)
 				{
-					opb.write(0,32);
+					if(user_comments[i]!=null)
+					{
+						opb.write(comment_lengths[i],32);
+						opb.write(user_comments[i]);
+					}
+					else
+					{
+						opb.write(0,32);
+					}
 				}
 			}
+			opb.write(1,1);
+			return(0);
 		}
-		opb.write(1,1);
-		return(0);
-	}
 
-	public int header_out(Packet op)
-	{
-		Buffer opb=new Buffer();
-		opb.writeinit();
-
-		if(pack(opb)!=0) return OV_EIMPL;
-
-		op.packet_base = new byte[opb.bytes()];
-		op.packet=0;
-		op.bytes=opb.bytes();
-		System.arraycopy(opb.buffer(), 0, op.packet_base, 0, op.bytes);
-		op.b_o_s=0;
-		op.e_o_s=0;
-		op.granulepos=0;
-		return 0;
-	}
- 
-	void clear()
-	{
-		for(int i=0;i<comments;i++)
-			user_comments[i]=null;
-		user_comments=null;
-		vendor=null;
-	}
-
-	public String getVendor()
-	{
-		return new String(vendor, 0, vendor.length-1);
-	}
-	public String getComment(int i)
-	{
-		if(comments<=i)return null;
-		return new String(user_comments[i], 0, user_comments[i].length-1);
-	}
-	public String toString()
-	{
-		String foo="Vendor: "+new String(vendor, 0, vendor.length-1);
-		for(int i=0; i<comments; i++)
+		public int header_out(Packet op)
 		{
-			foo=foo+"\nComment: "+new String(user_comments[i], 0, user_comments[i].length-1);
+			csBuffer opb=new csBuffer();
+			opb.writeinit();
+
+			if(pack(opb)!=0) return OV_EIMPL;
+
+			op.packet_base = new byte[opb.bytes()];
+			op.packet=0;
+			op.bytes=opb.bytes();
+			Array.Copy(opb.buf(), 0, op.packet_base, 0, op.bytes);
+			op.b_o_s=0;
+			op.e_o_s=0;
+			op.granulepos=0;
+			return 0;
 		}
-		foo=foo+"\n";
-		return foo;
+ 
+		void clear()
+		{
+			for(int i=0;i<comments;i++)
+				user_comments[i]=null;
+			user_comments=null;
+			vendor=null;
+		}
+
+		public String getVendor()
+		{
+			//TODO 
+			//return new String(vendor.ToString(), 0, vendor.Length-1);
+			return "The Labs";
+		}
+		public String getComment(int i)
+		{
+			if(comments<=i)return null;
+			//TODO
+			//Encoding asc = Encoding.ASCII;
+			//return new String(user_comments[i], 0, user_comments[i].Length-1, asc);
+			return "There is no spoon.";
+		}
+		public String toString()
+		{
+			//TODO
+			//String foo="Vendor: "+new String(vendor.ToString(), 0, vendor.Length-1);
+			//for(int i=0; i<comments; i++)
+			//{
+			//	foo=foo+"\nComment: "+new String(user_comments[i].ToString(), 0, user_comments[i].Length-1);
+			//}
+			//foo=foo+"\n";
+			//return foo;
+			return "Blah\n";
+		}
 	}
 }

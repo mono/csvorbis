@@ -26,21 +26,23 @@
 using System;
 using csogg;
 
-class Residue2 : Residue0
+namespace csvorbis 
 {
-	int forward(Block vb,Object vl, float[][] fin, int ch)
+	class Residue2 : Residue0
 	{
-		System.err.println("Residue0.forward: not implemented");
-		return 0;
-	}
+		override public int forward(Block vb,Object vl, float[][] fin, int ch)
+		{
+			return 0;
+		}
 
-	int inverse(Block vb, Object vl, float[][] fin, int[] nonzero, int ch)
-	{
-		//System.err.println("Residue0.inverse");
-		int i=0;
-		for(i=0;i<ch;i++)if(nonzero[i]!=0)break;
-		if(i==ch)return(0); /* no nonzero vectors */
+		override public int inverse(Block vb, Object vl, float[][] fin, int[] nonzero, int ch)
+		{
+			//System.err.println("Residue0.inverse");
+			int i=0;
+			for(i=0;i<ch;i++)if(nonzero[i]!=0)break;
+			if(i==ch)return(0); /* no nonzero vectors */
 
-		return(_2inverse(vb, vl, fin, ch));
+			return(_2inverse(vb, vl, fin, ch));
+		}
 	}
 }

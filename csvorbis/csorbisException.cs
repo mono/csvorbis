@@ -25,10 +25,13 @@
 
 using System;
 
-public class csorbisException : Exception 
+namespace csvorbis 
 {
-	public csorbisException ()
-		:base(){}
-	public csorbisException (String s)
-		:base("csorbis: "+s){}
+	public class csorbisException : Exception 
+	{
+		public csorbisException ()
+			:base(){}
+		public csorbisException (String s)
+			:base("csorbis: "+s){}
+	}
 }

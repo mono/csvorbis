@@ -25,12 +25,16 @@
 
 using System;
 
-class EncodeAuxNearestMatch{
-  int[] ptr0;
-  int[] ptr1;
+namespace csvorbis 
+{
+	class EncodeAuxNearestMatch
+	{
+		internal int[] ptr0;
+		internal int[] ptr1;
 
-  int[] p;         // decision points (each is an entry)
-  int[] q;         // decision points (each is an entry)
-  int   aux;       // number of tree entries
-  int   alloc;       
+		internal int[] p;         // decision points (each is an entry)
+		internal int[] q;         // decision points (each is an entry)
+		internal int   aux;       // number of tree entries
+		internal int   alloc;       
+	}
 }

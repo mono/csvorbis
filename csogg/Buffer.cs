@@ -70,7 +70,7 @@ namespace csogg
 			storage = bytes;
 		}
 
-		public void write(uint value, int bits)
+		public void write(int vvalue, int bits)
 		{
 			if(endbyte + 4 >= storage) 
 			{
@@ -80,23 +80,23 @@ namespace csogg
 				storage += BUFFER_INCREMENT;
 			}
 
-			value &= mask[bits];
+			vvalue = (int)((uint)vvalue & mask[bits]);
 			bits += endbit;
-			buffer[ptr] |= (byte)(value << endbit);
+			buffer[ptr] |= (byte)(vvalue << endbit);
 
 			if(bits >= 8)
 			{
-				buffer[ptr+1] = (byte)(value >> (8-endbit));
+				buffer[ptr+1] = (byte)((uint)vvalue >> (8-endbit));
 				if(bits >= 16)
 				{
-					buffer[ptr+2] = (byte)(value >> (16-endbit));
+					buffer[ptr+2] = (byte)((uint)vvalue >> (16-endbit));
 					if (bits >= 24)
 					{
-						buffer[ptr+3] = (byte)(value >> (24-endbit));
+						buffer[ptr+3] = (byte)((uint)vvalue >> (24-endbit));
 						if(bits >= 32)
 						{
 							if(endbit > 0)
-								buffer[ptr+4] = (byte)(value >> (32-endbit));
+								buffer[ptr+4] = (byte)((uint)vvalue >> (32-endbit));
 							else
 								buffer[ptr+4]=0;
 						}
@@ -263,6 +263,11 @@ namespace csogg
 				v >>= 1;
 			}
 			return(ret);
+		}
+
+		public byte[] buf()
+		{
+			return(buffer);
 		}
 
 		public csBuffer()

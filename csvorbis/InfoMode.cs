@@ -26,9 +26,13 @@
 using System;
 using csogg;
 
-class InfoMode{
-  int blockflag;
-  int windowtype;
-  int transformtype;
-  int mapping;
+namespace csvorbis 
+{
+	class InfoMode
+	{
+		internal int blockflag;
+		internal int windowtype;
+		internal int transformtype;
+		internal int mapping;
+	}
 }

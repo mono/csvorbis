@@ -25,9 +25,13 @@
 
 using System;
 
-class EncodeAuxThreshMatch{
-  float[] quantthresh;
-  int[]   quantmap;
-  int     quantvals; 
-  int     threshvals; 
+namespace csvorbis 
+{
+	class EncodeAuxThreshMatch
+	{
+		internal float[] quantthresh;
+		internal int[]   quantmap;
+		internal int     quantvals; 
+		internal int     threshvals; 
+	}
 }

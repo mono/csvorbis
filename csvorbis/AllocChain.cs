@@ -25,8 +25,11 @@
 
 using System;
 
-class AllocChain
+namespace csvorbis 
 {
-	Object ptr;
-	AllocChain next;
-};
+	class AllocChain
+	{
+		//Object ptr;
+		//AllocChain next;
+	};
+}

@@ -26,229 +26,176 @@
 using System;
 using csogg;
 
-class Lpc{
-  Drft fft=new Drft();
+namespace csvorbis 
+{
+	class Lpc
+	{
+		Drft fft=new Drft();
 
-  int ln;
-  int m;
+		int ln;
+		int m;
 
-  // Autocorrelation LPC coeff generation algorithm invented by
-  // N. Levinson in 1947, modified by J. Durbin in 1959.
+		// Autocorrelation LPC coeff generation algorithm invented by
+		// N. Levinson in 1947, modified by J. Durbin in 1959.
 
-  // Input : n elements of time doamin data
-  // Output: m lpc coefficients, excitation energy
+		// Input : n elements of time doamin data
+		// Output: m lpc coefficients, excitation energy
 
-  static float lpc_from_data(float[] data, float[] lpc,int n,int m){
-    float[] aut=new float[m+1];
-    float error;
-    int i,j;
+		static float lpc_from_data(float[] data, float[] lpc,int n,int m)
+		{
+			float[] aut=new float[m+1];
+			float error;
+			int i,j;
 
-    // autocorrelation, p+1 lag coefficients
+			// autocorrelation, p+1 lag coefficients
 
-    j=m+1;
-    while(j--!=0){
-      float d=0;
-      for(i=j;i<n;i++)d+=data[i]*data[i-j];
-      aut[j]=d;
-    }
+			j=m+1;
+			while(j--!=0)
+			{
+				float d=0.0F;
+				for(i=j;i<n;i++)d+=data[i]*data[i-j];
+				aut[j]=d;
+			}
   
-    // Generate lpc coefficients from autocorr values
+			// Generate lpc coefficients from autocorr values
 
-    error=aut[0];
-    /*
-    if(error==0){
-      for(int k=0; k<m; k++) lpc[k]=0.0f;
-      return 0;
-    }
-    */
+			error=aut[0];
+			/*
+			if(error==0){
+			  for(int k=0; k<m; k++) lpc[k]=0.0f;
+			  return 0;
+			}
+			*/
   
-    for(i=0;i<m;i++){
-      float r=-aut[i+1];
+			for(i=0;i<m;i++)
+			{
+				float r=-aut[i+1];
 
-      if(error==0){
-        for(int k=0; k<m; k++) lpc[k]=0.0f;
-        return 0;
-      }
+				if(error==0)
+				{
+					for(int k=0; k<m; k++) lpc[k]=0.0f;
+					return 0;
+				}
 
-      // Sum up this iteration's reflection coefficient; note that in
-      // Vorbis we don't save it.  If anyone wants to recycle this code
-      // and needs reflection coefficients, save the results of 'r' from
-      // each iteration.
+				// Sum up this iteration's reflection coefficient; note that in
+				// Vorbis we don't save it.  If anyone wants to recycle this code
+				// and needs reflection coefficients, save the results of 'r' from
+				// each iteration.
 
-      for(j=0;j<i;j++)r-=lpc[j]*aut[i-j];
-      r/=error; 
+				for(j=0;j<i;j++)r-=lpc[j]*aut[i-j];
+				r/=error; 
 
-      // Update LPC coefficients and total error
+				// Update LPC coefficients and total error
     
-      lpc[i]=r;
-      for(j=0;j<i/2;j++){
-	float tmp=lpc[j];
-	lpc[j]+=r*lpc[i-1-j];
-	lpc[i-1-j]+=r*tmp;
-      }
-      if(i%2!=0)lpc[j]+=lpc[j]*r;
+				lpc[i]=r;
+				for(j=0;j<i/2;j++)
+				{
+					float tmp=lpc[j];
+					lpc[j]+=r*lpc[i-1-j];
+					lpc[i-1-j]+=r*tmp;
+				}
+				if(i%2!=0)lpc[j]+=lpc[j]*r;
     
-      error*=1.0-r*r;
-    }
+				error*=(float)(1.0-r*r);
+			}
   
-    // we need the error value to know how big an impulse to hit the
-    // filter with later
+			// we need the error value to know how big an impulse to hit the
+			// filter with later
   
-    return error;
-  }
+			return error;
+		}
 
-  // Input : n element envelope spectral curve
-  // Output: m lpc coefficients, excitation energy
+		// Input : n element envelope spectral curve
+		// Output: m lpc coefficients, excitation energy
 
-  float lpc_from_curve(float[] curve, float[] lpc){
-    int n=ln;
-    float[] work=new float[n+n];
-    float fscale=(float)(.5/n);
-    int i,j;
+		float lpc_from_curve(float[] curve, float[] lpc)
+		{
+			int n=ln;
+			float[] work=new float[n+n];
+			float fscale=(float)(.5/n);
+			int i,j;
   
-    // input is a real curve. make it complex-real
-    // This mixes phase, but the LPC generation doesn't care.
-    for(i=0;i<n;i++){
-      work[i*2]=curve[i]*fscale;
-      work[i*2+1]=0;
-    }
-    work[n*2-1]=curve[n-1]*fscale;
+			// input is a real curve. make it complex-real
+			// This mixes phase, but the LPC generation doesn't care.
+			for(i=0;i<n;i++)
+			{
+				work[i*2]=curve[i]*fscale;
+				work[i*2+1]=0;
+			}
+			work[n*2-1]=curve[n-1]*fscale;
   
-    n*=2;
-    fft.backward(work);
+			n*=2;
+			fft.backward(work);
   
-    // The autocorrelation will not be circular.  Shift, else we lose
-    // most of the power in the edges.
+			// The autocorrelation will not be circular.  Shift, else we lose
+			// most of the power in the edges.
   
-    for(i=0,j=n/2;i<n/2;){
-      float temp=work[i];
-      work[i++]=work[j];
-      work[j++]=temp;
-    }
+			for(i=0,j=n/2;i<n/2;)
+			{
+				float temp=work[i];
+				work[i++]=work[j];
+				work[j++]=temp;
+			}
   
-    return(lpc_from_data(work,lpc,n,m));
-  }
+			return(lpc_from_data(work,lpc,n,m));
+		}
 
-  void init(int mapped, int m){
-    //memset(l,0,sizeof(lpc_lookup));
+		internal void init(int mapped, int m)
+		{
+			//memset(l,0,sizeof(lpc_lookup));
+			Console.Error.WriteLine("lpc::init");
+			ln=mapped;
+			this.m=m;
 
-    ln=mapped;
-    this.m=m;
+			// we cheat decoding the LPC spectrum via FFTs
+			Console.Error.WriteLine("Setting up FFT");
+			fft.init(mapped*2);
+		}
 
-    // we cheat decoding the LPC spectrum via FFTs
-    fft.init(mapped*2);
-  }
+		void clear()
+		{
+			fft.clear();
+		}
 
-  void clear(){
-    fft.clear();
-  }
+		static float FAST_HYPOT(float a, float b)
+		{
+			return (float)Math.Sqrt((a)*(a) + (b)*(b));
+		}
 
-  static float FAST_HYPOT(float a, float b){
-    return (float)Math.sqrt((a)*(a) + (b)*(b));
-  }
+		// One can do this the long way by generating the transfer function in
+		// the time domain and taking the forward FFT of the result.  The
+		// results from direct calculation are cleaner and faster. 
+		//
+		// This version does a linear curve generation and then later
+		// interpolates the log curve from the linear curve.
 
-  // One can do this the long way by generating the transfer function in
-  // the time domain and taking the forward FFT of the result.  The
-  // results from direct calculation are cleaner and faster. 
-  //
-  // This version does a linear curve generation and then later
-  // interpolates the log curve from the linear curve.
+		internal void lpc_to_curve(float[] curve, float[] lpc, float amp)
+		{
 
-  void lpc_to_curve(float[] curve, float[] lpc, float amp){
+			//memset(curve,0,sizeof(float)*l->ln*2);
+			for(int i=0; i<ln*2; i++)curve[i]=0.0f;
 
-    //memset(curve,0,sizeof(float)*l->ln*2);
-    for(int i=0; i<ln*2; i++)curve[i]=0.0f;
+			if(amp==0)return;
 
-    if(amp==0)return;
+			for(int i=0;i<m;i++)
+			{
+				curve[i*2+1]=lpc[i]/(4*amp);
+				curve[i*2+2]=-lpc[i]/(4*amp);
+			}
 
-    for(int i=0;i<m;i++){
-      curve[i*2+1]=lpc[i]/(4*amp);
-      curve[i*2+2]=-lpc[i]/(4*amp);
-    }
+			fft.backward(curve); // reappropriated ;-)
 
-    fft.backward(curve); // reappropriated ;-)
+			int l2=ln*2;
+			float unit=(float)(1.0/amp);
+			curve[0]=(float)(1.0/(curve[0]*2+unit));
+			for(int i=1;i<ln;i++)
+			{
+				float real=(curve[i]+curve[l2-i]);
+				float imag=(curve[i]-curve[l2-i]);
 
-    {
-      int l2=ln*2;
-      float unit=(float)(1.0/amp);
-      curve[0]=(float)(1.0/(curve[0]*2+unit));
-      for(int i=1;i<ln;i++){
-	float real=(curve[i]+curve[l2-i]);
-	float imag=(curve[i]-curve[l2-i]);
-
-	float a = real + unit;
-	curve[i] = (float)(1.0 / FAST_HYPOT(a, imag));
-      }
-    }
-  }  
-
-/*
-  // subtract or add an lpc filter to data.  Vorbis doesn't actually use this.
-
-  static void lpc_residue(float[] coeff, float[] prime,int m,
-			  float[] data, int n){
-
-    // in: coeff[0...m-1] LPC coefficients 
-    //     prime[0...m-1] initial values 
-    //     data[0...n-1] data samples 
-    // out: data[0...n-1] residuals from LPC prediction
-
-    float[] work=new float[m+n];
-    float y;
-
-    if(prime==null){
-      for(int i=0;i<m;i++){
-	work[i]=0;
-      }
-    }
-    else{
-      for(int i=0;i<m;i++){
-	work[i]=prime[i];
-      }
-    }
-
-    for(int i=0;i<n;i++){
-      y=0;
-      for(int j=0;j<m;j++){
-	y-=work[i+j]*coeff[m-j-1];
-      }
-      work[i+m]=data[i];
-      data[i]-=y;
-    }
-  }
-
-  static void lpc_predict(float[] coeff, float[] prime,int m,
-			  float[] data, int n){
-
-    // in: coeff[0...m-1] LPC coefficients 
-    //     prime[0...m-1] initial values (allocated size of n+m-1)
-    //     data[0...n-1] residuals from LPC prediction   
-    // out: data[0...n-1] data samples
-
-    int o,p;
-    float y;
-    float[] work=new float[m+n];
-
-    if(prime==null){
-      for(int i=0;i<m;i++){
-	work[i]=0.f;
-      }
-    }
-    else{
-      for(int i=0;i<m;i++){
-	work[i]=prime[i];
-      }
-    }
-
-    for(int i=0;i<n;i++){
-      y=data[i];
-      o=i;
-      p=m;
-      for(int j=0;j<m;j++){
-	y-=work[o++]*coeff[--p];
-      }
-      data[i]=work[o]=y;
-    }
-  }
-*/
+				float a = real + unit;
+				curve[i] = (float)(1.0 / FAST_HYPOT(a, imag));
+			}
+		}  
+	}
 }
