@@ -1,0 +1,27 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csogg", "csogg\csogg.csproj", "{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvorbis", "csvorbis\csvorbis.csproj", "{0087C0AF-E896-4C55-A999-5245560BCBE3}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Debug.ActiveCfg = Debug|.NET
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Debug.Build.0 = Debug|.NET
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Release.ActiveCfg = Release|.NET
+		{FA4ACE8B-CDEE-41A3-92D7-C73069B84B83}.Release.Build.0 = Release|.NET
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug.ActiveCfg = Debug|.NET
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug.Build.0 = Debug|.NET
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release.ActiveCfg = Release|.NET
+		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
