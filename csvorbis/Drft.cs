@@ -33,28 +33,25 @@ namespace csvorbis
 		float[] trigcache;    
 		int[] splitcache;
 
-		internal void backward(float[] data)
+		public void backward(float[] data)
 		{
-			//System.err.println("Drft.backward");
 			if(n==1)return;
 			drftb1(n,data,trigcache,trigcache,n,splitcache);
 		}
 
-		internal void init(int n)
+		public void init(int n)
 		{
-			//System.err.println("Drft.init");
+			Console.Error.WriteLine("Drft.init n: "+n);
 			this.n=n;
 			trigcache=new float[3*n];
 			splitcache=new int[32];
 			fdrffti(n, trigcache, splitcache);
 		}
 
-		internal void clear()
+		public void clear()
 		{
-			//System.err.println("Drft.clear");
 			if(trigcache!=null)trigcache=null;
 			if(splitcache!=null)splitcache=null;
-			//    memset(l,0,sizeof(drft_lookup));
 		}
 
 		static int[] ntryh = { 4,2,3,5 };
@@ -1295,19 +1292,6 @@ namespace csvorbis
 				na=1-na;
 				goto L115;
 										
-				//    The radix five case can be translated later.....
-				//    if(ip!=5)goto L112;
-				//
-				//ix2=iw+ido;
-				//ix3=ix2+ido;
-				//ix4=ix3+ido;
-				//if(na!=0)
-				//  dradb5(ido,l1,ch,c,wa+iw-1,wa+ix2-1,wa+ix3-1,wa+ix4-1);
-				//else
-				//  dradb5(ido,l1,c,ch,wa+iw-1,wa+ix2-1,wa+ix3-1,wa+ix4-1);
-				//na=1-na;
-				//state=115; 
-				//break;
 			L109: if(na!=0)
 					  dradbg(ido,ip,l1,idl1,ch,ch,ch,c,c,wa,index+iw-1);
 				  else
