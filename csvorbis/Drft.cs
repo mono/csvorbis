@@ -33,22 +33,21 @@ namespace csvorbis
 		float[] trigcache;    
 		int[] splitcache;
 
-		public void backward(float[] data)
+		internal void backward(float[] data)
 		{
 			if(n==1)return;
 			drftb1(n,data,trigcache,trigcache,n,splitcache);
 		}
 
-		public void init(int n)
+		internal void init(int n)
 		{
-			Console.Error.WriteLine("Drft.init n: "+n);
 			this.n=n;
 			trigcache=new float[3*n];
 			splitcache=new int[32];
 			fdrffti(n, trigcache, splitcache);
 		}
 
-		public void clear()
+		internal void clear()
 		{
 			if(trigcache!=null)trigcache=null;
 			if(splitcache!=null)splitcache=null;
