@@ -17,7 +17,7 @@ namespace OggDecoder
 		/// <summary>
 		/// The main entry point for the application.
 		/// </summary>
-		[STAThread]
+		//[STAThread]
 		static void Main(string[] args) 
 		{
 			TextWriter s_err = Console.Error;
@@ -27,7 +27,7 @@ namespace OggDecoder
 			{
 				try
 				{
-					input = new FileStream(args[0], FileMode.Open);
+					input = new FileStream(args[0], FileMode.Open, FileAccess.Read);
 					output = new FileStream(args[1], FileMode.OpenOrCreate);
 				}
 				catch(Exception e)
