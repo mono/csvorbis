@@ -94,7 +94,7 @@ namespace csvorbis
 		{
 			FileStream inst=null;
 			
-			try{ inst=new FileStream(file, FileMode.Open);}
+			try{ inst=new FileStream(file, FileMode.Open, FileAccess.Read);}
 			catch(Exception e)
 			{
 				throw new csorbisException("VorbisFile: "+e.Message);
@@ -979,7 +979,7 @@ namespace csvorbis
 			// dump the machine so we're in a known state
 			//pcm_offset=-1;
 			//decode_clear();
-			//return -1;
+			return -1;
 		}
 
 		// seek to a sample offset relative to the decompressed pcm stream 
@@ -1289,7 +1289,7 @@ namespace csvorbis
 		// 
 		// *section) set to the logical bitstream number
 
-		int read(byte[] buffer,int length,
+		public int read(byte[] buffer,int length,
 			int bigendianp, int word, int sgned, int[] bitstream)
 		{
 			int host_endian = host_is_big_endian();
@@ -1421,6 +1421,7 @@ namespace csvorbis
 						break;
 				}
 			}
+			return -1;
 		}
 
 		public Info[] getInfo(){return vi;}
