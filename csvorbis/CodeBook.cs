@@ -187,7 +187,8 @@ namespace csvorbis
 				int t = entry*dim;
 				for(j=0;j<dim;j++)
 				{
-					a[chptr++][i]+=valuelist[t+j];
+					a[chptr][i]+=valuelist[t+j];
+					chptr++;
 					if(chptr==ch)
 					{
 						chptr=0;

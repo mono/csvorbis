@@ -123,7 +123,7 @@ namespace csvorbis
 					Lookup.invsqlook(q)*
 					Lookup.invsq2explook(qexp+m)-ampoffset);
 
-				do{curve[i++]*=q;}
+				do{curve[i]*=q; i++;}
 					//    do{curve[i++]=q;}
 				while(i<n&&map[i]==k);
 

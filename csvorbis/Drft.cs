@@ -503,8 +503,10 @@ namespace csvorbis
 					t9=t5;
 					for(ik=0;ik<idl1;ik++)
 					{
-						ch2[t6++]+=ar2*c2[t8++];
-						ch2[t7++]+=ai2*c2[t9++];
+						ch2[t6]+=ar2*c2[t8++];
+						t6++;
+						ch2[t7]+=ai2*c2[t9++];
+						t7++;
 					}
 				}
 			}
@@ -1096,8 +1098,10 @@ namespace csvorbis
 					t12=t7;
 					for(ik=0;ik<idl1;ik++)
 					{
-						c2[t4++]+=ar2*ch2[t11++];
-						c2[t5++]+=ai2*ch2[t12++];
+						c2[t4]+=ar2*ch2[t11++];
+						t4++;
+						c2[t5]+=ai2*ch2[t12++];
+						t5++;
 					}
 				}
 			}
