@@ -42,7 +42,7 @@ namespace csvorbis
 	class Lsp
 	{
 
-		[StructLayout(LayoutKind.Explicit, Size=32, CharSet=CharSet.Ansi)]
+		[StructLayout(LayoutKind.Explicit, Size=32)]
 		struct FloatHack 
 		{
 			[FieldOffset(0)] public float fh_float;
