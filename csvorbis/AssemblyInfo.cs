@@ -1,3 +1,24 @@
+/* csvorbis
+ * Copyright (C) 2002 Mark Crichton <crichton@gimp.org>
+ *  
+ * Written by: Mark Crichton <crichton@gimp.org> 
+ *   
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public License
+ * as published by the Free Software Foundation; either version 2 of
+ * the License, or (at your option) any later version.
+   
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Library General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Library General Public
+ * License along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -6,12 +27,12 @@ using System.Runtime.CompilerServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 //
-[assembly: AssemblyTitle("C# Vorbis Decoder")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("csVorbis")]
+[assembly: AssemblyDescription("C# Vorbis Decoder")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("")]
+[assembly: AssemblyCopyright("LGPL")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]		
 

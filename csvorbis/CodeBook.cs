@@ -1,13 +1,12 @@
-/* JOrbis
+/* csvorbis
  * Copyright (C) 2000 ymnk, JCraft,Inc.
  *  
- * Written by: 2000 ymnk<ymnk@jcaft.com>
+ * Written by: 2000 ymnk<ymnk@jcraft.com>
+ * Ported to C# from JOrbis by: Mark Crichton <crichton@gimp.org> 
  *   
- * Many thanks to 
- *   Monty <monty@xiph.org> and 
- *   The XIPHOPHORUS Company http://www.xiph.org/ .
- * JOrbis has been based on their awesome works, Vorbis codec.
- *   
+ * Thanks go to the JOrbis team, for licencing the code under the
+ * LGPL, making my job a lot easier.
+ * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public License
  * as published by the Free Software Foundation; either version 2 of
@@ -22,6 +21,7 @@
  * License along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
 
 using System;
 using System.Runtime.CompilerServices;

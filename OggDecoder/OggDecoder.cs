@@ -6,7 +6,7 @@ using csvorbis;
 namespace OggDecoder
 {
 	/// <summary>
-	/// Summary description for Class1.
+	/// Ogg Vorbis decoder test application.
 	/// </summary>
 	class Decoder
 	{
