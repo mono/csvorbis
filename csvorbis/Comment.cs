@@ -134,7 +134,7 @@ namespace csvorbis
 			{
 				if(comment[i]=='=')
 				{
-					//TODO
+					// TODO
 					//return new String(comment, i+1, comment_lengths[foo]-(i+1));
 					return "Meme";
 				}
@@ -279,21 +279,21 @@ namespace csvorbis
 
 		public String getVendor()
 		{
-			//TODO 
+			// TODO 
 			//return new String(vendor.ToString(), 0, vendor.Length-1);
 			return "The Labs";
 		}
 		public String getComment(int i)
 		{
 			if(comments<=i)return null;
-			//TODO
+			// TODO
 			//Encoding asc = Encoding.ASCII;
 			//return new String(user_comments[i], 0, user_comments[i].Length-1, asc);
 			return "There is no spoon.";
 		}
 		public String toString()
 		{
-			//TODO
+			// TODO
 			//String foo="Vendor: "+new String(vendor.ToString(), 0, vendor.Length-1);
 			//for(int i=0; i<comments; i++)
 			//{

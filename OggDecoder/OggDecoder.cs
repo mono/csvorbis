@@ -283,8 +283,8 @@ namespace OggDecoder
 											}
 										}
   
-										//if(clipflag)
-										//  s_err.WriteLine("Clipping in frame "+vd.sequence);
+										if(clipflag)
+										  s_err.WriteLine("Clipping in frame "+vd.sequence);
   
 										output.Write(convbuffer, 0, 2*vi.channels*bout);
   

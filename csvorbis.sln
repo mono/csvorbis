@@ -3,6 +3,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csogg", "csogg\csogg.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "csvorbis", "csvorbis\csvorbis.csproj", "{0087C0AF-E896-4C55-A999-5245560BCBE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OggDecoder", "OggDecoder\OggDecoder.csproj", "{4CA9EB23-E111-4DAD-9932-F73E8E6C54C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfiguration) = preSolution
 		ConfigName.0 = Debug
@@ -19,6 +21,10 @@ Global
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Debug.Build.0 = Debug|.NET
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release.ActiveCfg = Release|.NET
 		{0087C0AF-E896-4C55-A999-5245560BCBE3}.Release.Build.0 = Release|.NET
+		{4CA9EB23-E111-4DAD-9932-F73E8E6C54C5}.Debug.ActiveCfg = Debug|.NET
+		{4CA9EB23-E111-4DAD-9932-F73E8E6C54C5}.Debug.Build.0 = Debug|.NET
+		{4CA9EB23-E111-4DAD-9932-F73E8E6C54C5}.Release.ActiveCfg = Release|.NET
+		{4CA9EB23-E111-4DAD-9932-F73E8E6C54C5}.Release.Build.0 = Release|.NET
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
