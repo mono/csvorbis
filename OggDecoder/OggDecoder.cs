@@ -185,13 +185,13 @@ namespace OggDecoder
 				// decoding
 			{
 				byte[][] ptr=vc.user_comments;
-				for(int j=0; j<ptr.Length;j++)
+				for(int j=0; j<vc.user_comments.Length;j++)
 				{
 					if(ptr[j]==null) break;
-					s_err.WriteLine(ptr[j].ToString());
+					s_err.WriteLine(vc.getComment(j));
 				} 
 				s_err.WriteLine("\nBitstream is "+vi.channels+" channel, "+vi.rate+"Hz");
-				s_err.WriteLine("Encoded by: "+vc.vendor.ToString()+"\n");
+				s_err.WriteLine("Encoded by: "+vc.getVendor()+"\n");
 			}
     
 				convsize=4096/vi.channels;
@@ -283,9 +283,11 @@ namespace OggDecoder
 											}
 										}
   
-										if(clipflag)
-											s_err.WriteLine("Clipping in frame "+vd.sequence);
-  
+										if(clipflag) 
+										{
+											//s_err.WriteLine("Clipping in frame "+vd.sequence);
+  										}
+
 										output.Write(convbuffer, 0, 2*vi.channels*bout);
   
 										vd.synthesis_read(bout); // tell libvorbis how

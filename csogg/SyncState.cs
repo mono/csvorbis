@@ -283,9 +283,7 @@ namespace csogg
 
 		public SyncState()
 		{
-			//
-			// TODO: Add constructor logic here
-			//
+			// No constructor needed
 		}
 	}
 }

@@ -24,6 +24,7 @@
 
 
 using System;
+using System.Runtime.CompilerServices;
 using csogg;
 
 namespace csvorbis 
@@ -101,10 +102,10 @@ namespace csvorbis
 		float[] _x=new float[1024];
 		float[] _w=new float[1024];
 
+		
+		[MethodImpl(MethodImplOptions.Synchronized)]
 		internal void backward(float[] fin, float[] fout)
 		{
-			lock(this) 
-			{  
 				if(_x.Length < n/2){_x=new float[n/2];}
 				if(_w.Length < n/2){_w=new float[n/2];}
 				float[] x=_x;
@@ -166,7 +167,6 @@ namespace csvorbis
 					xx+=2;
 					B+=2;
 				}
-			}
 			}
 		}
 		internal float[] mdct_kernel(float[] x, float[] w,

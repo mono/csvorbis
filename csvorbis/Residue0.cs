@@ -176,8 +176,8 @@ namespace csvorbis
 			return 0;
 		}
 
-		static int[][][] partword=new int[2][][]; // _01inverse is synchronized for
-		// re-using partword
+		static int[][][] partword=new int[2][][];
+	
 		[MethodImpl(MethodImplOptions.Synchronized)]
 		internal static int _01inverse(Block vb, Object vl, float[][] fin, int ch, int decodepart)
 		{

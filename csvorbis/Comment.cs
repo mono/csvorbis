@@ -134,9 +134,9 @@ namespace csvorbis
 			{
 				if(comment[i]=='=')
 				{
-					// TODO
-					//return new String(comment, i+1, comment_lengths[foo]-(i+1));
-					return "Meme";
+					// TODO: Fix this
+					char[] comment_uni = AE.GetChars(comment);
+					return new String(comment_uni, i+1, comment_lengths[foo]-(i+1));
 				}
 			}
 			return null;
@@ -279,29 +279,32 @@ namespace csvorbis
 
 		public String getVendor()
 		{
+			ASCIIEncoding AE = new ASCIIEncoding();
+			char[] vendor_uni = AE.GetChars(vendor);
 			// TODO 
-			//return new String(vendor.ToString(), 0, vendor.Length-1);
-			return "The Labs";
+			return new String(vendor_uni);
 		}
+
 		public String getComment(int i)
 		{
+			ASCIIEncoding AE = new ASCIIEncoding();
 			if(comments<=i)return null;
-			// TODO
-			//Encoding asc = Encoding.ASCII;
-			//return new String(user_comments[i], 0, user_comments[i].Length-1, asc);
-			return "There is no spoon.";
+			
+			char[] user_comments_uni = AE.GetChars(user_comments[i]);
+			return new String(user_comments_uni);
 		}
+
 		public String toString()
 		{
-			// TODO
-			//String foo="Vendor: "+new String(vendor.ToString(), 0, vendor.Length-1);
-			//for(int i=0; i<comments; i++)
-			//{
-			//	foo=foo+"\nComment: "+new String(user_comments[i].ToString(), 0, user_comments[i].Length-1);
-			//}
-			//foo=foo+"\n";
-			//return foo;
-			return "Blah\n";
+			ASCIIEncoding AE = new ASCIIEncoding();
+			String long_string = "Vendor: " + new String(AE.GetChars(vendor));
+
+			for(int i=0; i < comments; i++)
+				long_string = long_string + "\nComment: " + new String(AE.GetChars(user_comments[i]));
+			
+			long_string = long_string + "\n";
+
+			return long_string;
 		}
 	}
 }

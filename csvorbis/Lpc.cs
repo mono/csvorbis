@@ -143,7 +143,7 @@ namespace csvorbis
 		internal void init(int mapped, int m)
 		{
 			//memset(l,0,sizeof(lpc_lookup));
-			Console.Error.WriteLine("lpc::init");
+			
 			ln=mapped;
 			this.m=m;
 

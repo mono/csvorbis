@@ -101,18 +101,15 @@ namespace csvorbis
 			// the encoder may do what it wishes in filling them.  They're
 			// necessary in some mapping combinations to keep the scale spacing
 			// accurate
-			Console.Error.WriteLine("Pre LOOK!");
 			look.linearmap=new int[look.n];
 
 			for(int j=0; j<look.n; j++)
 			{
-				Console.Error.WriteLine("LOOK!");
 				int val=(int)Math.Floor(toBARK((float)((info.rate/2.0)/look.n*j)) 
 					*scale); // bark numbers represent band edges
 				if(val>=look.ln) val=look.ln; // guard against the approximation
 				look.linearmap[j]=val;
 			}
-			Console.Error.WriteLine("Done LOOK!");
 			return look;
 		}
 

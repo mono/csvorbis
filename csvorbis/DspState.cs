@@ -163,7 +163,6 @@ namespace csvorbis
 
 		int init(Info vi, bool encp)
 		{
-			Console.Error.WriteLine("DspState.init: vi="+vi+", encp="+encp);
 			//memset(v,0,sizeof(vorbis_dsp_state));
 			this.vi=vi;
 			modebits=ilog2(vi.modes);
@@ -218,7 +217,7 @@ namespace csvorbis
 				fullbooks[i]=new CodeBook();
 				fullbooks[i].init_decode(vi.book_param[i]);
 			}
-			Console.Error.WriteLine("fullbooks done");
+
 			//    }
 
 			// initialize the storage vectors to a decent size greater than the
@@ -248,15 +247,15 @@ namespace csvorbis
 
 			// initialize all the mapping/backend lookups
 			mode=new Object[vi.modes];
-			Console.Error.WriteLine("vi.modes: "+vi.modes);
+
 			for(int i=0;i<vi.modes;i++)
 			{
 				int mapnum=vi.mode_param[i].mapping;
 				int maptype=vi.map_type[mapnum];
-				Console.Error.WriteLine("Entering mapping.");
+
 				mode[i]=FuncMapping.mapping_P[maptype].look(this,vi.mode_param[i], 
 					vi.map_param[mapnum]);
-				Console.Error.WriteLine("Done Mapping");
+
 			}
 			return(0);
 		}
