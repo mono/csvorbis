@@ -1,0 +1,5 @@
+2002-17-05 Mark Crichton  <crichton@gimp.org>
+
+	* csogg,csvorbis,OggDecoder: added Makefile
+	* Makefile: added Makefile
+	* ChangeLog: started ChangeLog
