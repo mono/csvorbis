@@ -1,0 +1,34 @@
+General Information
+===================
+
+This is Vorbis# version 0.1.
+
+Vorbis# is a C# OggVorbis decoder written purely in C#.  It is based off of
+the Java version (Jorbis v0.0.12).
+
+The code can compile with Microsoft's .NET Framework or the Mono project's
+C# compiler mcs.  The Makefiles can handle either ('make windows' for compiling
+under Win32 and csc, and 'make unix' to compile under mcs).
+
+There is also a project file for use with VS.NET.
+
+The compile will produce three files:
+
+csogg.dll
+csvorbis.dll
+OggDecoder.exe
+
+OggDecoder takes two arguments, the first is a valid bitstream, the other
+is a file where 16 bit PCM data is written to.
+
+If you use ESD, a great example is:
+
+mono OggDecoder.exe my.ogg /dev/stdout | esdcat /dev/stdin
+
+This code has been tested extensively with the mono JIT.  The MS will work as
+well, but you're on your own to use it to play sound in realtime (i.e., write 
+your own audio backend).  Pnet is untested completely.  Don't even try this
+with Rotor, unless you have a lot of time on your hands.
+
+<crichton@gimp.org>
+
