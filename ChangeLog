@@ -1,6 +1,8 @@
 2002-23-05 Mark Crichton  <crichton@gimp.org>
 
 	* README, COPYING: added
+	* all makefiles had their slashes fixed for Windows.
+	csc seems so unique...
 
 2002-17-05 Mark Crichton  <crichton@gimp.org>
 

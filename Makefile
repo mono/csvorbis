@@ -1,5 +1,5 @@
 DIRS=csogg csvorbis OggDecoder
-CSC=csc.exe
+CSC=csc
 MCS=mcs
 
 all: unix
