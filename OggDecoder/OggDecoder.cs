@@ -71,7 +71,6 @@ namespace OggDecoder
 				buffer=oy.data;
 				try
 				{
-					s_err.WriteLine("Read a little bit...");
 					bytes = input.Read(buffer, index, 4096);
 				}
 				catch(Exception e)
@@ -133,7 +132,7 @@ namespace OggDecoder
 				// header page is the only place where missing data is fatal. */
     
 				int i=0;
-				s_err.WriteLine("Starting the fun...");
+				
 				while(i<2)
 				{
 					while(i<2)
@@ -199,11 +198,9 @@ namespace OggDecoder
 
 				// OK, got and parsed all three headers. Initialize the Vorbis
 				//  packet->PCM decoder.
-				s_err.WriteLine("Entering Init Routines");
 				vd.synthesis_init(vi); // central decode state
-				s_err.WriteLine("synthesis_init DONE");
 				vb.init(vd);           // local state for most of the decode
-				s_err.WriteLine("Init DONE!");
+
 				// so multiple block decodes can
 				// proceed in parallel.  We could init
 				// multiple vorbis_block structures
@@ -242,9 +239,7 @@ namespace OggDecoder
 									int samples;
 									if(vb.synthesis(op)==0)
 									{ // test for success!
-										s_err.WriteLine("Blockin' the synth");
 										vd.synthesis_blockin(vb);
-										s_err.WriteLine("Done.");
 									}
 
 									// **pcm is a multichannel float vector.  In stereo, for
@@ -288,10 +283,9 @@ namespace OggDecoder
 											}
 										}
   
-										if(clipflag)
-										  s_err.WriteLine("Clipping in frame "+vd.sequence);
+										//if(clipflag)
+										//  s_err.WriteLine("Clipping in frame "+vd.sequence);
   
-										s_err.WriteLine("ScribbleScribble");
 										output.Write(convbuffer, 0, 2*vi.channels*bout);
   
 										vd.synthesis_read(bout); // tell libvorbis how

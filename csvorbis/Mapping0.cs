@@ -36,7 +36,6 @@ namespace csvorbis
 
 		override public Object look(DspState vd, InfoMode vm, Object m)
 		{
-			Console.Error.WriteLine("Mapping0");
 			Info vi=vd.vi;
 			LookMapping0 looks=new LookMapping0();
 			InfoMapping0 info=looks.map=(InfoMapping0)m;
@@ -50,7 +49,6 @@ namespace csvorbis
 			looks.floor_func=new FuncFloor[info.submaps];
 			looks.residue_func=new FuncResidue[info.submaps];
   
-			Console.Error.WriteLine("info.submaps: "+info.submaps);
 			for(int i=0;i<info.submaps;i++)
 			{
 				int timenum=info.timesubmap[i];
@@ -59,17 +57,14 @@ namespace csvorbis
 
 				looks.time_func[i]=FuncTime.time_P[vi.time_type[timenum]];
 				looks.time_look[i]=looks.time_func[i].look(vd,vm,vi.time_param[timenum]);
-				Console.Error.WriteLine("TIME");
+		
 				looks.floor_func[i]=FuncFloor.floor_P[vi.floor_type[floornum]];
-				Console.Error.WriteLine("FLO: floornum:" + floornum);
 				looks.floor_look[i]=looks.floor_func[i].
 					look(vd,vm,vi.floor_param[floornum]);
-				Console.Error.WriteLine("FLOOR");
+
 				looks.residue_func[i]=FuncResidue.residue_P[vi.residue_type[resnum]];
 				looks.residue_look[i]=looks.residue_func[i].
 					look(vd,vm,vi.residue_param[resnum]);
-				Console.Error.WriteLine("RESIDUE");
-
 			}
 
 			if(vi.psys!=0 && vd.analysisp!=0)

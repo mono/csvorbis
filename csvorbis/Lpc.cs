@@ -148,7 +148,6 @@ namespace csvorbis
 			this.m=m;
 
 			// we cheat decoding the LPC spectrum via FFTs
-			Console.Error.WriteLine("Setting up FFT");
 			fft.init(mapped*2);
 		}
 
