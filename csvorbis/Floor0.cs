@@ -79,8 +79,8 @@ namespace csvorbis
 		}
 		override public Object look(DspState vd, InfoMode mi, Object i)
 		{
-			Console.Error.WriteLine("Floor0::look");
 			float scale;
+
 			Info vi=vd.vi;
 			InfoFloor0 info=(InfoFloor0)i;
 			LookFloor0 look=new LookFloor0();
@@ -93,7 +93,7 @@ namespace csvorbis
 			// we choose a scaling constant so that:
 			//  floor(bark(rate/2-1)*C)=mapped-1
 			// floor(bark(rate/2)*C)=mapped
-			scale=look.ln/toBARK((float)(info.rate/2.0));
+			scale = look.ln / (float)toBARK((float)(info.rate/2.0));
 
 			// the mapping from a linear scale to a smaller bark scale is
 			// straightforward.  We do *not* make sure that the linear mapping
@@ -112,12 +112,17 @@ namespace csvorbis
 			return look;
 		}
 
-		static float toBARK(float f)
+		static double toBARK(float f)
 		{
-			return (float)(13.1*Math.Atan(.00074*(f))+2.24*Math.Atan((f)*(f)*1.85e-8)+1e-4*(f));
+			double a,b,c;
+			a = 13.1 * Math.Atan(0.00074 * f);
+			b = 2.24 * Math.Atan(f * f * 1.85e-8);
+			c = 1.0e-4 * f;
+
+			return (a + b + c);
 		}
 
-		Object state(Object i)
+		private object state(object i)
 		{
 			EchstateFloor0 state=new EchstateFloor0();
 			InfoFloor0 info=(InfoFloor0)i;

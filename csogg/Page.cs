@@ -7,11 +7,11 @@ namespace csogg
 	/// </summary>
 	public class Page	
 	{
-		private static int[] crc_lookup=new int[256];
+		private static uint[] crc_lookup=new uint[256];
 		
-		private static int crc_entry(int index)
+		private static uint crc_entry(uint index)
 		{
-			int r = index << 24;
+			uint r = index << 24;
 			for(int i=0; i<8; i++)
 			{
 				if((r& 0x80000000)!=0)
@@ -26,7 +26,7 @@ namespace csogg
 					r <<= 1;
 				}
 			}
-			return(int)((uint)r & 0xffffffff);
+			return (r & 0xffffffff);
 		}
 
 		public byte[] header_base;
@@ -82,20 +82,20 @@ namespace csogg
 		internal void checksum()
 		{
 			uint crc_reg=0;
-			uint temp=0;
+			uint a, b;
     
 			for(int i=0;i<header_len;i++)
 			{
-				temp = header_base[header+i]&0xff;
-				temp ^= (crc_reg >> 24) & 0xff;
-				crc_reg = (crc_reg<<8)^(uint)crc_lookup[temp];
+				a = header_base[header+i] & 0xffu;
+				b = (crc_reg >> 24) & 0xff;
+				crc_reg = (crc_reg<<8)^crc_lookup[a^b];
 				//crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(header_base[header+i]&0xff)]);
 			}
 			for(int i=0;i<body_len;i++)
 			{
-				temp = header_base[header+i]&0xff;
-				temp ^= (crc_reg >> 24) & 0xff;
-				crc_reg = (crc_reg<<8)^(uint)crc_lookup[temp];
+				a = body_base[body+i] & 0xffu;
+				b = (crc_reg >> 24) & 0xff;
+				crc_reg = (crc_reg<<8)^crc_lookup[a^b];
 
 				//crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(body_base[body+i]&0xff)]);
 			}
@@ -107,7 +107,7 @@ namespace csogg
 
 		public Page()
 		{
-			for(int i=0; i<crc_lookup.Length; i++)
+			for(uint i=0; i<crc_lookup.Length; i++)
 			{
 				crc_lookup[i]=crc_entry(i);
 			}	
