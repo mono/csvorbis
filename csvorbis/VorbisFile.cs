@@ -1111,7 +1111,7 @@ namespace csvorbis
 
 		// seek to a playback time relative to the decompressed pcm stream 
 		// returns zero on success, nonzero on failure
-		int time_seek(float seconds)
+		public int time_seek(float seconds)
 		{
 			// translate time to PCM position and call pcm_seek
 
@@ -1254,12 +1254,8 @@ namespace csvorbis
 
 		int host_is_big_endian() 
 		{
-			return 1;
-			//    short pattern = 0xbabe;
-			//    unsigned char *bytewise = (unsigned char *)&pattern;
-			//    if (bytewise[0] == 0xba) return 1;
-			//    assert(bytewise[0] == 0xbe);
-			//    return 0;
+			return 0;
+			//the above isn't really right...
 		}
 
 		// up to this point, everything could more or less hide the multiple
@@ -1343,15 +1339,15 @@ namespace csvorbis
 									for(int i=0;i<channels;i++) 
 									{ // It's faster in this order
 										int src=_index[i];
-										int dest=i;
+										int dest=i*2;
 										for(int j=0;j<samples;j++) 
 										{
-											val=(int)(pcm[i][src+j]*32768.0 + 0.5);
+											val=(int)(pcm[i][src+j]*32767.0);
 											if(val>32767)val=32767;
 											else if(val<-32768)val=-32768;
-											buffer[dest]=(byte)((uint)val >> 8);
-											buffer[dest+1]=(byte)(val);
-											dest+=channels*2;
+											buffer[dest]=(byte)(val);
+											buffer[dest+1]=(byte)((uint)val >> 8);
+											dest+=bytespersample;
 										}
 									}
 								}
