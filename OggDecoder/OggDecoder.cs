@@ -284,7 +284,7 @@ namespace OggDecoder
 										}
   
 										if(clipflag)
-										  s_err.WriteLine("Clipping in frame "+vd.sequence);
+											s_err.WriteLine("Clipping in frame "+vd.sequence);
   
 										output.Write(convbuffer, 0, 2*vi.channels*bout);
   
@@ -330,8 +330,11 @@ namespace OggDecoder
 			// OK, clean up the framer
 			oy.clear();
 			s_err.WriteLine("Done.");
-		}
 
+			// Close some files
+			input.Close();
+			output.Close();
+		}
 	}
 }
 
