@@ -43,7 +43,7 @@ namespace csvorbis
 	{
 
 		[StructLayout(LayoutKind.Explicit, Size=32, CharSet=CharSet.Ansi)]
-		class FloatHack 
+		struct FloatHack 
 		{
 			[FieldOffset(0)] public float fh_float;
 			[FieldOffset(0)] public int fh_int;
