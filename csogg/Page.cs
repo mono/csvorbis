@@ -82,14 +82,22 @@ namespace csogg
 		internal void checksum()
 		{
 			uint crc_reg=0;
+			uint temp=0;
     
 			for(int i=0;i<header_len;i++)
 			{
-				crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(header_base[header+i]&0xff)]);
+				temp = header_base[header+i]&0xff;
+				temp ^= (crc_reg >> 24) & 0xff;
+				crc_reg = (crc_reg<<8)^(uint)crc_lookup[temp];
+				//crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(header_base[header+i]&0xff)]);
 			}
 			for(int i=0;i<body_len;i++)
 			{
-				crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(body_base[body+i]&0xff)]);
+				temp = header_base[header+i]&0xff;
+				temp ^= (crc_reg >> 24) & 0xff;
+				crc_reg = (crc_reg<<8)^(uint)crc_lookup[temp];
+
+				//crc_reg = (crc_reg<<8)^(uint)(crc_lookup[((crc_reg >> 24)&0xff)^(body_base[body+i]&0xff)]);
 			}
 			header_base[header+22]=(byte)crc_reg/*&0xff*/;
 			header_base[header+23]=(byte)(crc_reg>>8)/*&0xff*/;
