@@ -394,7 +394,11 @@ namespace csvorbis
 
 		int make_decode_ready()
 		{
+#if NET_2_1
+			if(decode_ready) throw new Exception ("make_decode_ready: 1");
+#else
 			if(decode_ready)Environment.Exit(1);
+#endif
 			vd.synthesis_init(vi[0]);
 			vb.init(vd);
 			decode_ready=true;

@@ -452,7 +452,7 @@ namespace csogg
 			/* construct the header in temp storage */
 
 		    String oggs_str = "OggS";
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] oggs_byt = AE.GetBytes(oggs_str);
 			Array.Copy(oggs_byt, 0, header, 0, oggs_byt.Length);
   

@@ -54,7 +54,7 @@ namespace csvorbis
 
 		public void add(String comment)
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] comment_byt = AE.GetBytes(comment);
 			add(comment_byt);
 		}
@@ -124,7 +124,7 @@ namespace csvorbis
 
 		public String query(String tag, int count)
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] tag_byt = AE.GetBytes(tag);
 			
 			int foo=query(tag_byt, count);
@@ -217,7 +217,7 @@ namespace csvorbis
 		{
 			String temp="Xiphophorus libVorbis I 20000508";
 
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] temp_byt = AE.GetBytes(temp);
 			byte[] _vorbis_byt = AE.GetBytes(_vorbis);
 			
@@ -278,14 +278,14 @@ namespace csvorbis
 
 		public String getVendor()
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			char[] vendor_uni = AE.GetChars(vendor);
 			return new String(vendor_uni);
 		}
 
 		public String getComment(int i)
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			if(comments<=i)return null;
 			
 			char[] user_comments_uni = AE.GetChars(user_comments[i]);
@@ -294,7 +294,7 @@ namespace csvorbis
 
 		public String toString()
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			String long_string = "Vendor: " + new String(AE.GetChars(vendor));
 
 			for(int i=0; i < comments; i++)

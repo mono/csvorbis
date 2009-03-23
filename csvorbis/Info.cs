@@ -415,7 +415,7 @@ namespace csvorbis
 		// pack side
 		int pack_info(csBuffer opb)
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] _vorbis_byt = AE.GetBytes(_vorbis);
 
 			// preamble
@@ -439,7 +439,7 @@ namespace csvorbis
 
 		int pack_books(csBuffer opb)
 		{
-			ASCIIEncoding AE = new ASCIIEncoding();
+			Encoding AE = Encoding.UTF8;
 			byte[] _vorbis_byt = AE.GetBytes(_vorbis);
 			
 			opb.write(0x05,8);
