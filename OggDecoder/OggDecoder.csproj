@@ -17,7 +17,7 @@
     <DelaySign>false</DelaySign>
     <OutputType>Exe</OutputType>
     <RootNamespace>OggDecoder</RootNamespace>
-    <StartupObject />
+    <StartupObject>OggDecoder.Decoder</StartupObject>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
@@ -91,12 +91,6 @@
     <Reference Include="System">
       <Name>System</Name>
     </Reference>
-    <Reference Include="System.Data">
-      <Name>System.Data</Name>
-    </Reference>
-    <Reference Include="System.XML">
-      <Name>System.XML</Name>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs">
@@ -105,6 +99,8 @@
     <Compile Include="OggDecoder.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="OggDecodeStream.cs" />
+    <Compile Include="OggPlayer.cs" />
     <Content Include="App.ico" />
   </ItemGroup>
   <ItemGroup>
